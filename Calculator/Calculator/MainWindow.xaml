@@ -28,6 +28,7 @@
                Grid.ColumnSpan="4"/>
         <!--Second row--> 
         <Button x:Name="acButton" Content="AC"
+                Click="acButton_Click" 
                 Margin="5"
                 Grid.Row="1"
                 />
@@ -47,6 +48,7 @@
                 Grid.Column="3"/>
         <!--Third row-->
         <Button x:Name="sevenButton" Content="7"
+                Click="sevenButton_Click"
                 Margin="5"
                 Grid.Row="2"
                />
