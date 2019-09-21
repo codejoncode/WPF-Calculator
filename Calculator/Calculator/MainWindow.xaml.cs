@@ -69,9 +69,11 @@ namespace Calculator
             resultLabel.Content = "0";
         }
 
-        private void sevenButton_Click(object sender, RoutedEventArgs e)
+        private void CalculatorButton_Click(object sender, RoutedEventArgs e)
         {
+            //Go get the button name.
             string buttonName = ((Button)sender).Name;
+            //Figure out what to do next. 
             ButtonHelper(buttonName);
             
         }
@@ -241,18 +243,33 @@ namespace Calculator
             //Divide
             else if (Operation.CompareTo(Flag.Divide) == 0)
             {
-
+                //Set the display to the value 
+                resultLabel.Content = value.ToString();
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total /= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
             }
 
             //Multiply
             else if (Operation.CompareTo(Flag.Multiply) == 0)
             {
-
+                //Set the display to the value 
+                resultLabel.Content = value.ToString();
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total *= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
             }
             //Modulo
             else if (Operation.CompareTo(Flag.Modulo) == 0)
             {
-
+                //Set the display to the value 
+                resultLabel.Content = value.ToString();
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total %= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
             }
         }
 

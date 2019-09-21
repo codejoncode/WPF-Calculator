@@ -48,7 +48,7 @@
                 Grid.Column="3"/>
         <!--Third row-->
         <Button x:Name="sevenButton" Content="7"
-                Click="sevenButton_Click"
+                Click="CalculatorButton_Click"
                 Margin="5"
                 Grid.Row="2"
                />
