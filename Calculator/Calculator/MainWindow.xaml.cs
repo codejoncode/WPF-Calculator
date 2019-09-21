@@ -90,6 +90,8 @@ namespace Calculator
                     resultLabel.Content = "0";
                     //reset cache 
                     Cache = "";
+                    //reset Total
+                    Total = 0.0;
                     break;
                 case "negativeButton":
                     resultLabel.Content = $"-{resultLabel.Content}";
@@ -139,15 +141,33 @@ namespace Calculator
                     EvalulateNumber(0);
                     break;
                 case "oneButton":
+                    EvalulateNumber(1);
+                    break;
                 case "twoButton":
+                    EvalulateNumber(2);
+                    break;
                 case "threeButton":
+                    EvalulateNumber(3);
+                    break;
                 case "fourButton":
+                    EvalulateNumber(4);
+                    break;
                 case "fiveButton":
+                    EvalulateNumber(5);
+                    break;
                 case "sixButton":
+                    EvalulateNumber(6);
+                    break;
                 case "sevenButton":
+                    EvalulateNumber(7);
+                    break;
                 case "eightButton":
+                    EvalulateNumber(8);
+                    break;
                 case "nineButton":
-               
+                    EvalulateNumber(9);
+                    break;
+
             }
         }
         /// <summary>
@@ -174,9 +194,65 @@ namespace Calculator
                 {
                     //Set the display
                     resultLabel.Content = $"{resultLabel.Content}{value}";
-                    //set the total
+                    //set the total on conditionals  
+                    //Find out if a . is used for decimal
+
+                    //Intitially when  0.   we want to actually keep the total at 0. 
+
+
+                    bool featuresDecimal =  resultLabel.Content.ToString().Contains(".") ? true : false;
+                    
+                    //Features decimal
+                    if (featuresDecimal)
+                    {
+
+                        Total = resultLabel.Content.ToString().Length > 2 ? Double.Parse($"{resultLabel.Content}") : 0.0;
+                    }
+                    
+                    //No decimal.
+                    else
+                    {
+                        Total = Int32.Parse($"{resultLabel.Content}{value}");
+
+                    }
 
                 }
+            }
+            //Add
+            else if (Operation.CompareTo(Flag.Add) == 0)
+            {
+                //Set the display to the value 
+                resultLabel.Content = value.ToString();
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total += value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+            }
+            //Subtract
+            else if (Operation.CompareTo(Flag.Subtract) == 0)
+            {
+                //Set the display to the value 
+                resultLabel.Content = value.ToString();
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total -= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+            }
+            //Divide
+            else if (Operation.CompareTo(Flag.Divide) == 0)
+            {
+
+            }
+
+            //Multiply
+            else if (Operation.CompareTo(Flag.Multiply) == 0)
+            {
+
+            }
+            //Modulo
+            else if (Operation.CompareTo(Flag.Modulo) == 0)
+            {
+
             }
         }
 
