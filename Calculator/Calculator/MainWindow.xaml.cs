@@ -27,7 +27,6 @@ namespace Calculator
             Subtract,
             Divide,
             Modulo,
-            Negative,
             Equals,
             Default,
             Multiply,
@@ -36,8 +35,10 @@ namespace Calculator
         private string _cache = "";
         private Flag _operation = Flag.Default;
 
+
         // Properties
 
+        public bool Negative { get; set; }
         //My Operation is a enum  in which will help me identify which actions to take. 
         public Flag Operation { get; set; }
 
@@ -96,7 +97,9 @@ namespace Calculator
                     Total = 0.0;
                     break;
                 case "negativeButton":
-                    resultLabel.Content = $"-{resultLabel.Content}";
+                    resultLabel.Content = "-";
+                    //Set negative true
+                    Negative = true;
                     //do something with the Total
                     break;
                 case "modButton":
@@ -271,6 +274,13 @@ namespace Calculator
                 //return the Operation to Default
                 Operation = Flag.Default;
             }
+            //Negative
+            else if (Negative)
+            {
+                //Set the display to the value   i.e.   -8
+                resultLabel.Content = $"{resultLabel.Content}{value}";
+                
+            }
         }
 
         /// <summary>
@@ -279,6 +289,7 @@ namespace Calculator
         public void  CacheResultLabelContent ()
         {
             Cache = resultLabel.Content.ToString();
+            Negative = false;
         }
     }
 }
