@@ -23,11 +23,9 @@ namespace Calculator
         //Fields 
         private string _cache = "";
         
-
-
         // Properties
-
         public bool Negative { get; set; }
+        public bool Reset { get; set; }
         //My Operation is a enum  in which will help me identify which actions to take. 
         public Flag Operation { get; set; }
         public Flag LastOperation { get; set; }
@@ -45,7 +43,6 @@ namespace Calculator
             {
                 _cache = value;
             }
-
         }
         public double Total { get; set; }
 
@@ -56,11 +53,14 @@ namespace Calculator
             ResultLabel.Content = "0";
             Operation = Flag.Default;
             LastOperation = Flag.Default;
+            Reset = false;
             
         }
 
         public void PerformCalculations ()
         {
+            //Reset  
+            Reset = true; 
             //Add
             double value = Double.Parse(ResultLabel.Content.ToString());
             if (LastOperation.CompareTo(Flag.Add) == 0)
@@ -115,7 +115,6 @@ namespace Calculator
                 ResultLabel.Content = Total.ToString();
             }
         }
-
         /// <summary>
         /// Used to figure out what action to take on the button that is called. 
         /// </summary>
@@ -170,6 +169,7 @@ namespace Calculator
                     CacheResultLabelContent();
                     break;
                 case "equalsButton":
+                    Reset = true; 
                     PerformCalculations();
                     break;
                 case "decimalButton":
@@ -209,7 +209,6 @@ namespace Calculator
                 case "nineButton":
                     EvalulateNumber(9);
                     break;
-
             }
         }
         /// <summary>
@@ -227,91 +226,18 @@ namespace Calculator
                 if (ResultLabel.Content.ToString() == "0")
                 {
                     //Set the display 
-                    ResultLabel.Content = value.ToString();
-                    
-                    
+                    ResultLabel.Content = value.ToString();   
                 }
-                else
+                else if (!Reset)
                 {
                     //Set the display
                     ResultLabel.Content = $"{ResultLabel.Content}{value}";
-                    //set the total on conditionals  
-                    //Find out if a . is used for decimal
-
-                    //Intitially when  0.   we want to actually keep the total at 0. 
-                    //bool featuresDecimal = ResultLabel.Content.ToString().Contains(".") ? true : false;
-
-                    ////Features decimal
-                    //if (featuresDecimal)
-                    //{
-
-                    //    Total = ResultLabel.Content.ToString().Length > 2 ? Double.Parse($"{ResultLabel.Content}") : 0.0;
-                    //}
-                    ////No decimal.
-                    //else
-                    //{
-                    //    Total = Int32.Parse($"{ResultLabel.Content}{value}");
-                    //}
                 }
-            }
-            ////Add
-            //else if (Operation.CompareTo(Flag.Add) == 0)
-            //{
-            //    //Set the display to the value 
-            //    ResultLabel.Content = value.ToString();
-
-            //    //return the Operation to Default
-            //    LastOperation = Operation;
-            //    Operation = Flag.Default;
-            //}
-            ////Subtract
-            //else if (Operation.CompareTo(Flag.Subtract) == 0)
-            //{
-            //    //Set the display to the value 
-            //    ResultLabel.Content = value.ToString();
-
-            //    //return the Operation to Default
-            //    LastOperation = Operation;
-            //    Operation = Flag.Default;
-            //}
-            ////Divide
-            //else if (Operation.CompareTo(Flag.Divide) == 0)
-            //{
-            //    //Set the display to the value 
-            //    ResultLabel.Content = value.ToString();
-
-            //    //return the Operation to Default
-            //    LastOperation = Operation;
-            //    Operation = Flag.Default;
-            //}
-
-            ////Multiply
-            //else if (Operation.CompareTo(Flag.Multiply) == 0)
-            //{
-            //    //Set the display to the value 
-            //    ResultLabel.Content = value.ToString();
-
-            //    //return the Operation to Default
-            //    LastOperation = Operation;
-            //    Operation = Flag.Default;
-            //}
-            ////Modulo
-            //else if (Operation.CompareTo(Flag.Modulo) == 0)
-            //{
-            //    //Set the display to the value 
-            //    ResultLabel.Content = value.ToString();
-
-            //    //return the Operation to Default
-            //    LastOperation = Operation;
-            //    Operation = Flag.Default;
-            //}
-            //Negative
-            else if (Negative)
-            {
-                //Set the display to the value   i.e.   -8
-                ResultLabel.Content = $"{ResultLabel.Content}{value}";
-                Negative = false;
-
+                else
+                {
+                    //Set the display 
+                    ResultLabel.Content = value.ToString();
+                }
             }
             else
             {
@@ -321,7 +247,6 @@ namespace Calculator
                 Operation = Flag.Default;
             }
         }
-
         /// <summary>
         /// This keeps me from repeating the line of code everywhere in case I need to make a change in the future. 
         /// </summary>
@@ -332,7 +257,6 @@ namespace Calculator
             LastOperation = Operation;
             Negative = false;
         }
-
         /// <summary>
         /// Resetting the cache getting ready for the next result. 
         /// </summary>
