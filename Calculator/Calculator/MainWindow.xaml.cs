@@ -29,22 +29,14 @@ namespace Calculator
             get
             {
                 return _operationalModel;
-            }
-            
+            }      
         }
-
-
 
         public MainWindow()
         {
             InitializeComponent();
             //resultLabel.Content = "123345";
-            _operationalModel = new CalculatorModel();
-        }
-
-        private void acButton_Click(object sender, RoutedEventArgs e)
-        {
-            resultLabel.Content = "0";
+            _operationalModel = new CalculatorModel(resultLabel);
         }
 
         private void CalculatorButton_Click(object sender, RoutedEventArgs e)
@@ -52,10 +44,7 @@ namespace Calculator
             //Go get the button name.
             string buttonName = ((Button)sender).Name;
             //Figure out what to do next. 
-            ButtonHelper(buttonName);
-            
-        }
-
-        
+            OperationalModel.ButtonHelper(buttonName); 
+        }  
     }
 }

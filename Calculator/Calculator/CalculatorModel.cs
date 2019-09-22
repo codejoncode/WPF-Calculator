@@ -22,7 +22,7 @@ namespace Calculator
         };
         //Fields 
         private string _cache = "";
-        private Flag _operation = Flag.Default;
+        
 
 
         // Properties
@@ -30,6 +30,7 @@ namespace Calculator
         public bool Negative { get; set; }
         //My Operation is a enum  in which will help me identify which actions to take. 
         public Flag Operation { get; set; }
+        public Flag LastOperation { get; set; }
 
         public Label ResultLabel { get; set; }
 
@@ -52,15 +53,74 @@ namespace Calculator
         public CalculatorModel (Label  resultLabel)
         {
             ResultLabel = resultLabel;
+            ResultLabel.Content = "0";
+            Operation = Flag.Default;
+            LastOperation = Flag.Default;
             
         }
 
+        public void PerformCalculations ()
+        {
+            //Add
+            double value = Double.Parse(ResultLabel.Content.ToString());
+            if (LastOperation.CompareTo(Flag.Add) == 0)
+            { 
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total += value;
+                Console.WriteLine(Total);
+                //return the Operation to Default
+                Operation = Flag.Default;
+                //Show the total on display
+                ResultLabel.Content = Total.ToString();
+            }
+            //Subtract
+            else if (LastOperation.CompareTo(Flag.Subtract) == 0)
+            { 
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total -= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+                //Show the total on display
+                ResultLabel.Content = Total.ToString();
+            }
+            //Divide
+            else if (LastOperation.CompareTo(Flag.Divide) == 0)
+            {  
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total /= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+                //Show the total on display
+                ResultLabel.Content = Total.ToString();
+            }
+
+            //Multiply
+            else if (LastOperation.CompareTo(Flag.Multiply) == 0)
+            { 
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total *= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+                //Show the total on display
+                ResultLabel.Content = Total.ToString();
+            }
+            //Modulo
+            else if (LastOperation.CompareTo(Flag.Modulo) == 0)
+            { 
+                //Perform math on the total based off the value coming in. Using the Cache.
+                Total %= value;
+                //return the Operation to Default
+                Operation = Flag.Default;
+                //Show the total on display
+                ResultLabel.Content = Total.ToString();
+            }
+        }
 
         /// <summary>
         /// Used to figure out what action to take on the button that is called. 
         /// </summary>
         /// <param name="buttonName">each button has a name and this is used in a switch statement</param>
-        private void ButtonHelper(string buttonName)
+        public void ButtonHelper(string buttonName)
         {
             switch (buttonName)
             {
@@ -91,7 +151,7 @@ namespace Calculator
                     //place current value on cache.
                     CacheResultLabelContent();
                     break;
-                case "multipyButton":
+                case "multiplyButton":
                     //set Flag for multiply operation.
                     Operation = Flag.Multiply;
                     //place current value on cache.
@@ -110,7 +170,7 @@ namespace Calculator
                     CacheResultLabelContent();
                     break;
                 case "equalsButton":
-                    ResultLabel.Content = Total.ToString();
+                    PerformCalculations();
                     break;
                 case "decimalButton":
                     //if there is not a decimal already added to the string add one.
@@ -159,7 +219,7 @@ namespace Calculator
         /// is still updated. 
         /// </summary>
         /// <param name="value"></param>
-        private void EvalulateNumber(int value)
+        public void EvalulateNumber(int value)
         {
             if (Operation.CompareTo(Flag.Default) == 0)
             {
@@ -168,9 +228,8 @@ namespace Calculator
                 {
                     //Set the display 
                     ResultLabel.Content = value.ToString();
-                    //set the total
-                    Total = value;
-
+                    
+                    
                 }
                 else
                 {
@@ -180,83 +239,86 @@ namespace Calculator
                     //Find out if a . is used for decimal
 
                     //Intitially when  0.   we want to actually keep the total at 0. 
+                    //bool featuresDecimal = ResultLabel.Content.ToString().Contains(".") ? true : false;
 
+                    ////Features decimal
+                    //if (featuresDecimal)
+                    //{
 
-                    bool featuresDecimal = ResultLabel.Content.ToString().Contains(".") ? true : false;
-
-                    //Features decimal
-                    if (featuresDecimal)
-                    {
-
-                        Total = ResultLabel.Content.ToString().Length > 2 ? Double.Parse($"{ResultLabel.Content}") : 0.0;
-                    }
-
-                    //No decimal.
-                    else
-                    {
-                        Total = Int32.Parse($"{ResultLabel.Content}{value}");
-
-                    }
-
+                    //    Total = ResultLabel.Content.ToString().Length > 2 ? Double.Parse($"{ResultLabel.Content}") : 0.0;
+                    //}
+                    ////No decimal.
+                    //else
+                    //{
+                    //    Total = Int32.Parse($"{ResultLabel.Content}{value}");
+                    //}
                 }
             }
-            //Add
-            else if (Operation.CompareTo(Flag.Add) == 0)
-            {
-                //Set the display to the value 
-                ResultLabel.Content = value.ToString();
-                //Perform math on the total based off the value coming in. Using the Cache.
-                Total += value;
-                //return the Operation to Default
-                Operation = Flag.Default;
-            }
-            //Subtract
-            else if (Operation.CompareTo(Flag.Subtract) == 0)
-            {
-                //Set the display to the value 
-                ResultLabel.Content = value.ToString();
-                //Perform math on the total based off the value coming in. Using the Cache.
-                Total -= value;
-                //return the Operation to Default
-                Operation = Flag.Default;
-            }
-            //Divide
-            else if (Operation.CompareTo(Flag.Divide) == 0)
-            {
-                //Set the display to the value 
-                ResultLabel.Content = value.ToString();
-                //Perform math on the total based off the value coming in. Using the Cache.
-                Total /= value;
-                //return the Operation to Default
-                Operation = Flag.Default;
-            }
+            ////Add
+            //else if (Operation.CompareTo(Flag.Add) == 0)
+            //{
+            //    //Set the display to the value 
+            //    ResultLabel.Content = value.ToString();
 
-            //Multiply
-            else if (Operation.CompareTo(Flag.Multiply) == 0)
-            {
-                //Set the display to the value 
-                ResultLabel.Content = value.ToString();
-                //Perform math on the total based off the value coming in. Using the Cache.
-                Total *= value;
-                //return the Operation to Default
-                Operation = Flag.Default;
-            }
-            //Modulo
-            else if (Operation.CompareTo(Flag.Modulo) == 0)
-            {
-                //Set the display to the value 
-                ResultLabel.Content = value.ToString();
-                //Perform math on the total based off the value coming in. Using the Cache.
-                Total %= value;
-                //return the Operation to Default
-                Operation = Flag.Default;
-            }
+            //    //return the Operation to Default
+            //    LastOperation = Operation;
+            //    Operation = Flag.Default;
+            //}
+            ////Subtract
+            //else if (Operation.CompareTo(Flag.Subtract) == 0)
+            //{
+            //    //Set the display to the value 
+            //    ResultLabel.Content = value.ToString();
+
+            //    //return the Operation to Default
+            //    LastOperation = Operation;
+            //    Operation = Flag.Default;
+            //}
+            ////Divide
+            //else if (Operation.CompareTo(Flag.Divide) == 0)
+            //{
+            //    //Set the display to the value 
+            //    ResultLabel.Content = value.ToString();
+
+            //    //return the Operation to Default
+            //    LastOperation = Operation;
+            //    Operation = Flag.Default;
+            //}
+
+            ////Multiply
+            //else if (Operation.CompareTo(Flag.Multiply) == 0)
+            //{
+            //    //Set the display to the value 
+            //    ResultLabel.Content = value.ToString();
+
+            //    //return the Operation to Default
+            //    LastOperation = Operation;
+            //    Operation = Flag.Default;
+            //}
+            ////Modulo
+            //else if (Operation.CompareTo(Flag.Modulo) == 0)
+            //{
+            //    //Set the display to the value 
+            //    ResultLabel.Content = value.ToString();
+
+            //    //return the Operation to Default
+            //    LastOperation = Operation;
+            //    Operation = Flag.Default;
+            //}
             //Negative
             else if (Negative)
             {
                 //Set the display to the value   i.e.   -8
                 ResultLabel.Content = $"{ResultLabel.Content}{value}";
+                Negative = false;
 
+            }
+            else
+            {
+                //Set the display to the value 
+                ResultLabel.Content = value.ToString();
+                //return the Operation to Default
+                Operation = Flag.Default;
             }
         }
 
@@ -266,7 +328,17 @@ namespace Calculator
         public void CacheResultLabelContent()
         {
             Cache = ResultLabel.Content.ToString();
+            Total = Double.Parse(Cache);
+            LastOperation = Operation;
             Negative = false;
+        }
+
+        /// <summary>
+        /// Resetting the cache getting ready for the next result. 
+        /// </summary>
+        public void ResetCache()
+        {
+            Cache = "";
         }
     }
 }
