@@ -1,0 +1,13 @@
+﻿in the constructor   MainWindow   
+
+can create event handlers 
+
+get the name of the button 
+
+acButton.Click += AcButton_Click;
+negativeButton.Click += NegativeButton_Click
+
+private void AcButton_Click(object sender, RoutedEventArgs e)
+{
+     // do something  
+}
